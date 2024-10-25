@@ -1,27 +1,43 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#afb42b',
-      '&:hover': {
-        color: 'white',
-        backgroundColor: '#828A0E',
-      },
+      main: "#C0CA33",
     },
     secondary: {
-      main: '#7b1fa2',
-      '&:hover': {
-        color: 'white',
-        backgroundColor: '#5C107C',
-      }
+      main: "#C0CA33",
     },
   },
   typography: {
-    fontFamily: [
-      'Roboto',
-      'sans-serif',
-    ].join(','),
+    h1: {
+      fontSize: "2rem",
+      color: "white",
+      fontWeight: "bold",
+    },
+    h2: {
+      fontSize: "1.5rem",
+      color: "#000000",
+      fontWeight: "bold",
+      marginBottom: "1.5rem",
+    },
+    body1: {
+      fontSize: "1rem",
+      color: "#000000",
+    },
+    button: {
+      textTransform: "none",
+      fontWeight: "bold",
+    },
+  },
+  components: {
+    MuiListItemText: {
+      styleOverrides: {
+        primary: {
+          color: "white", 
+        },
+      },
+    },
   },
 });
 
