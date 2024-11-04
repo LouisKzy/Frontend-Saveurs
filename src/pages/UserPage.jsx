@@ -87,8 +87,7 @@ function UserPage() {
     }
 
     try {
-      setIsLoading(true); // Commence le chargement
-
+      setIsLoading(true); 
       const updatedData = {
         email: user.email,
       };
@@ -100,21 +99,18 @@ function UserPage() {
       setError("Échec de la mise à jour de l'email : " + error.message);
       openSnackbar("Échec de la mise à jour de l'email.", "error");
     } finally {
-      setIsLoading(false); // Termine le chargement
+      setIsLoading(false);
     }
   };
 
-  // Afficher l'erreur si elle existe
   if (error) {
     return <div>Erreur : {error}</div>;
   }
 
-  // Vérifier si l'utilisateur est chargé
   if (!user) {
     return null;
   }
 
-  // Calculer les index pour la pagination
   const indexOfLastOrder = currentOrdersPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = user.orders.slice(
