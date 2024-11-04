@@ -1,56 +1,49 @@
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Logo from '../assets/images/LogoLog.svg';
+import Logo from '../assets/images/LogoHome.png';
 import Fonlog from '../assets/images/FonLog.jpg';
 import { RegisterFetch } from '../services/authService';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const defaultTheme = createTheme();
+import { useSnackbar } from '../components/SnackbarAlertProvider';
 
 export default function RegisterForm() {
   const emailRef = useRef('');
   const passwordRef = useRef('');
   const confirmPasswordRef = useRef('');
-  const firstNameRef = useRef('');
-  const lastNameRef = useRef('');
+
   const navigate = useNavigate();
+  const openSnackbar = useSnackbar();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     const confirmPassword = confirmPasswordRef.current.value;
-    const firstName = firstNameRef.current.value;
-    const lastName = lastNameRef.current.value;
+
     console.log('Email:', email);
     console.log('Password:', password);
     console.log('Confirm Password:', confirmPassword);
-    console.log('First Name:', firstName);
-    console.log('Last Name:', lastName);
+
     if (password !== confirmPassword) {
-      alert('Passwords do not match');
+      openSnackbar('Les mots de passe ne correspondent pas', 'error');
       return;
     }
     try {
-      const data = await RegisterFetch(email, password, firstName, lastName);
+      const data = await RegisterFetch(email, password);
       console.log(data);
       navigate('/login');
     } catch (error) {
-      alert('Failed to register: ' + error.message);
+      openSnackbar(error.message, 'error');
     }
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
-        <CssBaseline />
         <Grid
           item
           xs={false}
@@ -59,8 +52,6 @@ export default function RegisterForm() {
           sx={{
             backgroundImage: `url(${Fonlog})`,
             backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
@@ -81,29 +72,8 @@ export default function RegisterForm() {
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    autoComplete="given-name"
-                    name="firstName"
-                    required
-                    fullWidth
-                    id="firstName"
-                    label="Prénom"
-                    inputRef={firstNameRef}
-                    autoFocus
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="lastName"
-                    label="Nom de famille"
-                    name="lastName"
-                    inputRef={lastNameRef}
-                    autoComplete="family-name"
-                  />
-                </Grid>
+
+
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -144,14 +114,14 @@ export default function RegisterForm() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, bgcolor: '#7b1fa2', '&:hover': { bgcolor: '#5C107C' } }}
+                sx={{ mt: 3, mb: 2 , color: 'white'}}
               >
-                Sign Up
+                S'inscrire
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="login" variant="body2">
-                    Tu as déjà un compte ? Connecte toi
+                  <Link href="login" variant="body1">
+                    Tu as déjà un compte ?
                   </Link>
                 </Grid>
               </Grid>
@@ -159,6 +129,5 @@ export default function RegisterForm() {
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
   );
 }

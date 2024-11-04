@@ -6,12 +6,12 @@ import {
   Box,
   Typography,
   Button,
-  FormControl,
-  InputLabel,
-  Input,
+  TextField,
 } from "@mui/material";
+import { useSnackbar } from '../components/SnackbarAlertProvider';
 
 const EditProductForm = () => {
+  const openSnackbar = useSnackbar();
   const navigate = useNavigate();
   const { productId } = useParams();
   const [productData, setProductData] = useState({
@@ -21,21 +21,25 @@ const EditProductForm = () => {
     origin: "",
     variety: "",
     image: null,
+    imageFileName: "",
   });
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const response = await GetProductfetch(productId);
-        setProductData(response);
+        setProductData({
+          ...response,
+          imageFileName: "", 
+          image: null,
+        });
       } catch (error) {
-        console.error("Erreur lors de la récupération du produit :", error);
+        openSnackbar("Erreur lors de la récupération des données du produit : " + error.message, 'error');
       }
     };
+    fetchProduct();
+  }, [productId, openSnackbar]);
 
-    fetchProduct(); // Appel de la fonction fetchProduct ici
-  }, [productId]); // productId est ajouté au tableau de dépendances
-  console.log(productData);
   const isAdmin = Cookies.get("useradmin") === "true";
 
   const handleInputChange = (event) => {
@@ -47,22 +51,24 @@ const EditProductForm = () => {
   };
 
   const handleFileChange = (event) => {
-    setProductData({
-      ...productData,
-      image: event.target.files[0],
-    });
+    const file = event.target.files[0];
+    if (file) {
+      setProductData({
+        ...productData,
+        image: file,
+        imageFileName: file.name,
+      });
+    }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       await EditProductfetch(productId, productData, isAdmin);
-      console.log("Produit mis à jour avec succès.");
+      openSnackbar("Produit mis à jour avec succès.", "success");
       navigate("/admin/page");
     } catch (error) {
-      console.error("Erreur lors de la mise à jour du produit :", error);
-      console.log(productData);
-      console.log(productId);
+      openSnackbar("Erreur lors de la mise à jour du produit : " + error.message, "error");
     }
   };
 
@@ -71,67 +77,111 @@ const EditProductForm = () => {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      height="100vh"
+      sx={{ margin: 4 }}
     >
-      <form onSubmit={handleSubmit} style={{ width: "400px" }}>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{ width: "400px", marginTop: "auto" }}
+      >
         <Typography
           variant="h5"
           sx={{ fontWeight: "bold" }}
           align="center"
           gutterBottom
-          value={productData.name}
         >
           Modifier le produit
         </Typography>
-        <FormControl margin="normal" fullWidth>
-          <InputLabel>Nom</InputLabel>
-          <Input
-            name="name"
-            value={productData.name}
-            onChange={handleInputChange}
+
+        <TextField
+          fullWidth
+          margin="normal"
+          id="name"
+          name="name"
+          label="Nom"
+          value={productData.name}
+          onChange={handleInputChange}
+          variant="outlined"
+        />
+
+        <TextField
+          fullWidth
+          margin="normal"
+          id="price"
+          name="price"
+          label="Prix"
+          value={productData.price}
+          onChange={handleInputChange}
+          type="number"
+          variant="outlined"
+        />
+
+        <TextField
+          fullWidth
+          margin="normal"
+          id="description"
+          name="description"
+          label="Description"
+          value={productData.description}
+          onChange={handleInputChange}
+          multiline
+          rows={4}
+          variant="outlined"
+        />
+
+        <TextField
+          fullWidth
+          margin="normal"
+          id="origin"
+          name="origin"
+          label="Origine"
+          value={productData.origin}
+          onChange={handleInputChange}
+          variant="outlined"
+        />
+
+        <TextField
+          fullWidth
+          margin="normal"
+          id="variety"
+          name="variety"
+          label="Variété"
+          value={productData.variety}
+          onChange={handleInputChange}
+          variant="outlined"
+        />
+
+        <Button
+          variant="contained"
+          component="label"
+          fullWidth
+          sx={{ mt: 2, color: "white" }}
+        >
+          Télécharger une image
+          <input
+            type="file"
+            hidden
+            accept="image/*"
+            onChange={handleFileChange}
           />
-        </FormControl>
-        <FormControl margin="normal" fullWidth>
-          <InputLabel>Prix</InputLabel>
-          <Input
-            name="price"
-            value={productData.price}
-            onChange={handleInputChange}
-            type="number"
-          />
-        </FormControl>
-        <FormControl margin="normal" fullWidth>
-          <InputLabel>Description</InputLabel>
-          <Input
-            name="description"
-            value={productData.description}
-            onChange={handleInputChange}
-            multiline
-          />
-        </FormControl>
-        <FormControl margin="normal" fullWidth>
-          <InputLabel>Origine</InputLabel>
-          <Input
-            name="origin"
-            value={productData.origin}
-            onChange={handleInputChange}
-          />
-        </FormControl>
-        <FormControl margin="normal" fullWidth>
-          <InputLabel>Variété</InputLabel>
-          <Input
-            name="variety"
-            value={productData.variety}
-            onChange={handleInputChange}
-          />
-        </FormControl>
-        <FormControl margin="normal" fullWidth>
-          <Input type="file" id="image-upload" onChange={handleFileChange} />
-        </FormControl>
-        <Button type="submit" variant="contained" color="primary" fullWidth>
+        </Button>
+
+        {productData.imageFileName && (
+          <Typography variant="body2" sx={{ mt: 1 }}>
+            Fichier sélectionné : {productData.imageFileName}
+          </Typography>
+        )}
+        
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{ mt: 2, color: "white" }}
+        >
           Enregistrer les modifications
         </Button>
-      </form>
+      </Box>
     </Box>
   );
 };
