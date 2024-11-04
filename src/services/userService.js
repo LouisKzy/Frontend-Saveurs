@@ -20,9 +20,18 @@ async function ShowUser() {
 
 async function UpdateUser(userId, userData) {
   try {
-    const response = await axios.patch(API_URL_USERS + `${userId}`, {
-      user: userData,
-    });
+    const response = await axios.patch(
+      API_URL_USERS + `/${userId}`,
+      {
+        user: userData,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: Cookie.get("token"),
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     throw new Error(

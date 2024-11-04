@@ -17,12 +17,12 @@ export async function GetCart() {
     throw error; 
   }
 }
-export async function AddProductToCart(productId) {
+export async function AddProductToCart(productId, quantity = 1) {
   try {
     const response = await axios.post(`${API_URL}/cart_products`, {
-      productId: productId // Envoyer l'ID du produit dans le corps de la requête
-    },
-    {
+      productId: productId,
+      quantity: quantity
+    }, {
       headers: {
         "Content-Type": "application/json",
         Authorization: Cookie.get("token")

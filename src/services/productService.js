@@ -23,7 +23,7 @@ export async function AddProductfetch(productData) {
   formData.append("origin", productData.origin);
   formData.append("variety", productData.variety);
   formData.append("image", productData.image);
-  formData.append("categorie", productData.categorie);
+  formData.append("category", productData.category);
   formData.append("isAdmin", productData.isAdmin);
 
   try {
@@ -41,7 +41,7 @@ export async function AddProductfetch(productData) {
         description: productData.description,
         origin: productData.origin,
         variety: productData.variety,
-        categorie: productData.categorie,
+        category: productData.category,
       },
     });
 
@@ -77,7 +77,6 @@ export async function AddProductfetch(productData) {
 
 export async function EditProductfetch(productId, updatedProductData, isAdmin) {
   try {
-    // Créer un FormData pour les données du produit
     const formData = new FormData();
     formData.append("name", updatedProductData.name);
     formData.append("price", updatedProductData.price);
@@ -85,12 +84,12 @@ export async function EditProductfetch(productId, updatedProductData, isAdmin) {
     formData.append("origin", updatedProductData.origin);
     formData.append("variety", updatedProductData.variety);
 
-    // Vérifier si une nouvelle image est fournie
+
     if (updatedProductData.image) {
       formData.append("image", updatedProductData.image);
     }
 
-    // Mettre à jour les données du produit en envoyant une requête PUT
+
     const productResponse = await axios.put(
       `${API_URL_PRODUCTS}/${productId}`,
       formData,
@@ -112,9 +111,8 @@ export async function EditProductfetch(productId, updatedProductData, isAdmin) {
       }
     );
 
-    // Si une nouvelle image est fournie, mettre à jour l'image associée en envoyant une requête PATCH
     if (updatedProductData.image) {
-      const imageId = productResponse.data.id; // Remplacez product_image_id par l'attribut approprié contenant l'ID de l'image dans la réponse
+      const imageId = productResponse.data.id; 
 
       const imageFormData = new FormData();
       imageFormData.append("image", updatedProductData.image);
@@ -154,11 +152,8 @@ export async function DeleteProductfetch(productId, isAdmin) {
         Authorization: Cookie.get("token"),
       },
     });
-    console.log("Produit supprimé avec succès.");
-    console.log(response);
     return response;
   } catch (error) {
-    console.error("Erreur lors de la suppression du produit:", error);
     throw new Error("La suppression du produit a échoué.");
   }
 }
