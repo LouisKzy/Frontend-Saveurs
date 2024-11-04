@@ -1,16 +1,20 @@
 import { useState, useEffect } from 'react';
 import { GetCart, RemoveFromCart } from '../services/cartServices';
-import { Typography, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Button, Grid, Paper } from '@mui/material';
+import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, Box } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Cookie from 'js-cookie';
 import axios from 'axios';
 import { API_URL } from '../constants';
-
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 const ShowCart = () => {
   const [cart, setCart] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -67,7 +71,7 @@ const ShowCart = () => {
       const itemQuantity = item.quantity || 1;
       total += itemPrice * itemQuantity;
     });
-    setTotalPrice(total);
+    setTotalPrice(total.toFixed(2));
   };
 
   const handleRemoveFromCart = async (productId) => {
@@ -108,48 +112,58 @@ const ShowCart = () => {
   };
 
   return (
-    <Grid container spacing={3} sx={{ paddingTop: 20, paddingBottom: 15, paddingLeft: 20, paddingRight: 100 }}>
-      <Grid item xs={12}>
-        <Typography variant="h3">Mon panier</Typography>
-      </Grid>
-      <Grid item xs={12}>
-        {cart && cart.products && cart.products.length > 0 ? (
-          <Paper>
-            <List>
-              {cart.products.map((product) => (
-                <ListItem key={product.id}>
-                  <ListItemText 
-                    primary={`Nom : ${product.product.name}`} 
-                    secondary={`Prix : ${isNaN(product.product.price) ? 'N/A' : product.product.price * ( 1)}`} 
-                    sx={{ paddingRight: '20px' }}
-                  />
-                  <ListItemSecondaryAction sx={{ display: 'flex', alignItems: 'center' }}>
-                    <IconButton onClick={() => adjustQuantity(product.product.id, product.cart_product_id, -1)} aria-label="remove">
-                      <RemoveIcon />
-                    </IconButton>
-                    <Typography variant="body1" sx={{ marginX: '8px' }}>{typeof product.quantity === 'number' ? product.quantity : 1}</Typography>
-                    <IconButton onClick={() => adjustQuantity(product.product.id, product.cart_product_id, 1)} aria-label="add">
-                      <AddIcon />
-                    </IconButton>
-                    <IconButton onClick={() => handleRemoveFromCart(product.product.id)} aria-label="delete" sx={{ marginRight: '8px' }}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
-              ))}
-            </List>
-          </Paper>
-        ) : (
-          <Typography variant="body1">Votre panier est vide.</Typography>
-        )}
-      </Grid>
-      {cart && cart.products && cart.products.length > 0 && (
-        <Grid item xs={12} sx={{ paddingTop: 5 }}>
-          <Typography variant="h5">Total : {totalPrice} €</Typography> 
-          <Button variant="contained" color="primary" onClick={handlePayment} sx={{ marginTop: 3 }}>Procéder au paiement</Button>
-        </Grid>
+    <Box sx={{ minHeight: '60vh', display :'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <Typography variant="h3" sx={{ textAlign: 'center', m: 3 }}>Mon panier</Typography>
+      {cart && cart.products && cart.products.length > 0 ? (
+        <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center',  alignItems: 'center'}}>
+          <TableContainer component={Paper} sx={{ minWidth: isMobile ? null : 750 }}>
+            <Table aria-label="panier">
+              <TableHead>
+                <TableRow>
+                  <TableCell  align="center">Nom</TableCell>
+                  <TableCell align="center">Prix</TableCell>
+                  <TableCell align="center">Quantité</TableCell>
+                  <TableCell align="center">Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {cart.products.map((product) => (
+                  <TableRow key={product.product.id}>
+                    <TableCell align="center">{product.product.name}</TableCell>
+                    <TableCell align="center">{product.product.price} €</TableCell>
+                    <TableCell align="center">
+                      <IconButton onClick={() => adjustQuantity(product.product.id, product.cart_product_id, -1)} aria-label="remove">
+                        <RemoveIcon />
+                      </IconButton>
+                      {product.quantity}
+                      <IconButton onClick={() => adjustQuantity(product.product.id, product.cart_product_id, 1)} aria-label="add">
+                        <AddIcon />
+                      </IconButton>
+                    </TableCell>
+                    <TableCell align="center">
+                      <IconButton onClick={() => handleRemoveFromCart(product.product.id)} aria-label="delete">
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <Typography variant="h5" sx={{ textAlign: 'center', margin: 2 }}>Total : {totalPrice} €</Typography>
+          <Button 
+            variant="contained" 
+            color="primary" 
+            onClick={handlePayment} 
+            sx={{ display: 'flex',  justifyContent: 'space-around', maxWidth: '60%', margin: 2 }}
+          >
+            Procéder au paiement
+          </Button>
+        </Box>
+      ) : (
+        <Typography variant="body1" sx={{ textAlign: 'center' }}>Votre panier est vide.</Typography>
       )}
-    </Grid>
+    </Box>
   );
 };
 

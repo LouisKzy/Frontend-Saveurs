@@ -1,10 +1,24 @@
-import { Typography, Paper } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { Typography, Paper, useMediaQuery } from '@mui/material';
 
 function LegalNotice() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
-    <div>
-      <Paper elevation={3} style={{ padding: 126, textAlign: 'center'}}>
-        <Typography variant="h5" gutterBottom>Mentions Légales</Typography>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <Paper 
+        elevation={3} 
+        style={{         
+          padding: 15,
+          marginBottom: '20px',
+          marginTop: '20px',
+          maxWidth: '800px', 
+          width: '86%',
+          textAlign: !isMobile ? 'center' : 'left',
+          minHeight: '56vh',
+        }}
+      >
+        <Typography sx={{mt:3, mb: 2}} variant="h5" gutterBottom>Mentions Légales</Typography>
         <Typography paragraph>
           <strong>Nom de l&apos;entreprise :</strong> Saveurs-saisonnières
         </Typography>

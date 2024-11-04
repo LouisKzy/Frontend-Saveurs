@@ -2,9 +2,12 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { API_URL } from '../constants';
-import { Typography, Box } from '@mui/material';
+import { Typography, Box, useMediaQuery } from '@mui/material';
+import {useTheme} from '@mui/material/styles';
   const SuccessPayment = () => {
     const [, setMessage] = useState('');
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   
     useEffect(() => {
       const fetchData = async () => {
@@ -32,15 +35,15 @@ import { Typography, Box } from '@mui/material';
     }, []);
 
   return (
-    <Box sx={{ padding: 40, textAlign: 'center'}}>
+    <Box sx={{ padding: isMobile? 10 : 40, textAlign: 'center'}}>
       <Typography variant="h4" gutterBottom>
         Paiment Validé
       </Typography>
       <Typography variant="h5" gutterBottom>
-        Rendez-vous dans 1h au magasin, 14 rue des étoiles 34 000 Montpellier 
+        Rendez-vous dans 1h au magasin, 7 Rue de la Croix d'Or 34 000 Montpellier 
       </Typography>
       <Typography variant="h5" gutterBottom>
-      À très vite ! 
+        À très vite ! 
       </Typography>
     </Box>
   );

@@ -1,25 +1,23 @@
-import { useState, useRef } from "react";
+import {  useRef } from "react";
 import { useDispatch } from "react-redux";
 import { LoginFetch } from "../services/authService";
 import { login } from "../features/authSlice";
 import Cookies from "js-cookie";
-import Logo from "../assets/images/LogoLog.svg";
+import Logo from "../assets/images/LogoHome.png";
 import Fonregister from "../assets/images/Fonregister.jpg";
-import { Grid, Paper, Box, Typography, TextField, FormControlLabel, Checkbox, Button, Link, Alert } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
+import { Grid, Paper, Box, Typography, TextField, FormControlLabel, Checkbox, Button, Link } from "@mui/material";
+import { useSnackbar } from "./SnackbarAlertProvider";
 
 export default function LoginForm() {
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const dispatch = useDispatch();
-  const [error, setError] = useState("");
+  const openSnackbar = useSnackbar();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-
     try {
       const { data, headers } = await LoginFetch(email, password);
       const user = data.user;
@@ -28,24 +26,19 @@ export default function LoginForm() {
       Cookies.set("token", token);
       if (user.admin) {
         Cookies.set("useradmin", user.admin);
-        console.log("Successfully logged in as admin: ", data.message);
         window.location.href = "/admin/page";
         dispatch(login({ token: token, isAdmin: true }));
       } else {
         dispatch(login({ token: token, isAdmin: false }));
-        console.log("Successfully logged in as non-admin: ", data.message);
         window.location.href = "/products";
       }
     } catch (error) {
-      console.error("Failed to login:", error.message);
-      setError("Adresse e-mail ou mot de passe incorrect.");
+      openSnackbar(error.message, "error");
     }
   };
 
   return (
-    <ThemeProvider theme={createTheme()}>
       <Grid container component="main" sx={{ height: "100vh" }}>
-        <CssBaseline />
         <Grid
           item
           xs={false}
@@ -80,7 +73,6 @@ export default function LoginForm() {
             <Typography component="h1" variant="h5">
               Connexion
             </Typography>
-            {error && <Alert severity="error">{error}</Alert>}
             <Box
               component="form"
               noValidate
@@ -120,8 +112,7 @@ export default function LoginForm() {
                 sx={{
                   mt: 3,
                   mb: 2,
-                  bgcolor: "#afb42b",
-                  "&:hover": { bgcolor: "#828A0E" },
+                  color: "white",
                 }}
               >
                 Connexion
@@ -142,6 +133,5 @@ export default function LoginForm() {
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
   );
 }

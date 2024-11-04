@@ -1,9 +1,24 @@
-import { Typography, Paper } from '@mui/material';
-
+import { Typography, Paper, useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 function PrivacyPolicy() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
-    <div>
-      <Paper elevation={3} style={{ padding: 100}}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+
+    <Paper 
+      elevation={3} 
+      style={{         
+
+        padding: 15,
+        marginBottom: '20px',
+        marginTop: '20px',
+        maxWidth: '800px', 
+        width: '86%',
+        textAlign: !isMobile ? 'center' : 'left',
+        minHeight: '56vh',
+      }}
+    >
         <Typography variant="h5" gutterBottom>Politique de Confidentialité</Typography>
         <Typography paragraph>
           Nous accordons une grande importance à la protection de vos données personnelles. Cette politique de confidentialité vous explique comment nous collectons, utilisons et protégeons vos informations lorsque vous utilisez notre site web.
