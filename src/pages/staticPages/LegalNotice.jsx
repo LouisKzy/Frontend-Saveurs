@@ -15,7 +15,7 @@ function LegalNotice() {
           maxWidth: '800px', 
           width: '86%',
           textAlign: !isMobile ? 'center' : 'left',
-          minHeight: '56vh',
+          minHeight: '70vh',
         }}
       >
         <Typography sx={{mt:3, mb: 2}} variant="h5" gutterBottom>Mentions Légales</Typography>

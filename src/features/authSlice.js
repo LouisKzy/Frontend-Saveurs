@@ -17,7 +17,7 @@ export const authSlice = createSlice({
     logout: (state) => {
       state.isAuthenticated = false;
       state.token = null;
-      Cookies.remove("token"); // Supprimer le token du cookie lors de la déconnexion
+      Cookies.remove("token"); 
       Cookies.remove("useradmin");
     },
   },

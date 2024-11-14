@@ -63,8 +63,6 @@ export async function AddProductfetch(productData) {
           },
         }
       );
-
-      console.log("Réponse de téléchargement d'image:", imageResponse);
       return response;
     } else {
       throw new Error("La création du produit a échoué.");
@@ -130,8 +128,6 @@ export async function EditProductfetch(productId, updatedProductData, isAdmin) {
           },
         }
       );
-
-      console.log("Image updated successfully:", imageResponse);
       return productResponse;
     } else {
       throw new Error("La mise à jour du produit a échoué.");

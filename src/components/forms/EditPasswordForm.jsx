@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { EditPasswordFetch } from '../services/authService';
+import { EditPasswordFetch } from '../../services/authService';
 import { useRef } from 'react';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from "@mui/material/styles";
@@ -29,7 +29,6 @@ export default function EditPasswordForm() {
 
     try {
       const data = await EditPasswordFetch(password, confirmPassword, resetPasswordToken);
-      console.log(data)
       window.location.href = '/login';
     } catch (error) {
       alert('Failed to edit password: ' + error.message);

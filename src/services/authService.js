@@ -26,7 +26,6 @@ async function LoginFetch(email, password) {
         password: password
       },
     });
-    console.log(response)
     return response;
   } catch (error) {
     throw new Error('Failed to login: ' + error.message);

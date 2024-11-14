@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { GetCart, RemoveFromCart } from '../services/cartServices';
+import { GetCart, RemoveFromCart } from '../../services/cartServices';
 import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, Box } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Cookie from 'js-cookie';
 import axios from 'axios';
-import { API_URL } from '../constants';
+import { API_URL } from '../../constants';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 const ShowCart = () => {
@@ -23,7 +23,6 @@ const ShowCart = () => {
         if (response && response.data) {
           setCart(response.data);
           calculateTotalPrice(response.data.products); 
-          console.log('Panier :', response.data);
         } else {
           console.error('Données de panier non valides :', response);
         }
@@ -58,7 +57,6 @@ const ShowCart = () => {
           },
         }
       );
-      console.log('Panier mis à jour :', response.data);
     } catch (error) {
       console.error('Erreur lors de la mise à jour du panier :', error);
     }
@@ -80,7 +78,6 @@ const ShowCart = () => {
       const updatedCart = await GetCart();
       setCart(updatedCart.data);
       calculateTotalPrice(updatedCart.data.products);
-      console.log(updatedCart)
     } catch (error) {
       console.error('Erreur lors de la suppression du produit du panier :', error);
     }
@@ -112,7 +109,7 @@ const ShowCart = () => {
   };
 
   return (
-    <Box sx={{ minHeight: '60vh', display :'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+    <Box sx={{ minHeight: '70vh', display :'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       <Typography variant="h3" sx={{ textAlign: 'center', m: 3 }}>Mon panier</Typography>
       {cart && cart.products && cart.products.length > 0 ? (
         <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center',  alignItems: 'center'}}>
@@ -155,7 +152,7 @@ const ShowCart = () => {
             variant="contained" 
             color="primary" 
             onClick={handlePayment} 
-            sx={{ display: 'flex',  justifyContent: 'space-around', maxWidth: '60%', margin: 2 }}
+            sx={{ display: 'flex',  justifyContent: 'space-around', maxWidth: '60%', margin: 2, color: 'white', textShadow: '0.5px 0.5px 1px black' }}
           >
             Procéder au paiement
           </Button>

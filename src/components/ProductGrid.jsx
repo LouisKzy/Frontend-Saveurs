@@ -19,7 +19,7 @@ import {
   ChevronRight,
 } from "@mui/icons-material";
 import { AddProductToCart } from "../services/cartServices";
-import axios from "axios";
+import { useSnackbar } from "../components/SnackbarAlertProvider";
 import { API_URL } from "../constants";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -27,7 +27,7 @@ import SearchBar from "./SearchBar";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Parallax, Navigation } from "swiper/modules";
 
-const ProductGrid = ({ categoryName, productsPerPage = 9 }) => {
+const ProductGrid = ({ categoryName, productsPerPage = 9, products = [] }) => {
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -40,30 +40,22 @@ const ProductGrid = ({ categoryName, productsPerPage = 9 }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const prevRef = useRef(null);
   const nextRef = useRef(null);
+  const openSnackbar = useSnackbar();
 
-  const fetchFilteredProducts = async (searchTerm = "") => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await axios.get(`${API_URL}/products`, {
-        params: { name: searchTerm },
-      });
-      setFilteredProducts(response.data);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des produits : ", error);
-      setError("Une erreur est survenue lors du chargement des produits.");
-    } finally {
+  // Filtrage local des produits sans requête API supplémentaire
+  useEffect(() => {
+    setLoading(true);
+    if (products.length > 0) {
+      const filtered = products.filter((product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+      setLoading(false);
+    } else {
+      setFilteredProducts([]);
       setLoading(false);
     }
-  };
-
-  useEffect(() => {
-    fetchFilteredProducts("");
-  }, []);
-
-  useEffect(() => {
-    fetchFilteredProducts(searchTerm);
-  }, [searchTerm]);
+  }, [searchTerm, products]);
 
   const handleOpen = (index) => {
     const globalIndex = (page - 1) * productsPerPage + index;
@@ -81,9 +73,14 @@ const ProductGrid = ({ categoryName, productsPerPage = 9 }) => {
     setPage(value);
   };
 
-  const handleAddToCart = (productId) => {
+  async function handleAddToCart(productId) {
     const quantity = quantities[productId] || 1;
-    AddProductToCart(productId, quantity);
+    const response = await AddProductToCart(productId, quantity)
+    try {
+      openSnackbar(response.message, "success");
+    } catch (error) {
+      openSnackbar(error, "error");
+    }
   };
 
   const handleQuantityChange = (productId, value) => {
@@ -136,6 +133,7 @@ const ProductGrid = ({ categoryName, productsPerPage = 9 }) => {
                       title={product.name}
                       sx={{ objectFit: "cover", borderRadius: "25px 25px 0 0" }}
                       loading="lazy"
+                      onClick={() => handleOpen(index)}
                     />
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="div">
@@ -180,9 +178,10 @@ const ProductGrid = ({ categoryName, productsPerPage = 9 }) => {
                     >
                       <Grid item>
                         <Button
-                          variant="outlined"
+                          variant="contained"
                           onClick={() => handleOpen(index)}
                           size="small"
+                          sx={{ color: "white", textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}
                         >
                           Détails
                         </Button>
@@ -193,7 +192,8 @@ const ProductGrid = ({ categoryName, productsPerPage = 9 }) => {
                           color="primary"
                           size="small"
                           onClick={() => handleAddToCart(product.id)}
-                          startIcon={<AddShoppingCart />}
+                          startIcon={<AddShoppingCart  sx={{ color: "white", textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}/>}
+                          sx={{ color: "white", textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}
                         >
                           Ajouter au panier
                         </Button>
@@ -386,7 +386,7 @@ const ProductGrid = ({ categoryName, productsPerPage = 9 }) => {
                         variant="contained"
                         color="primary"
                         onClick={() => handleAddToCart(product.id)}
-                        sx={{ maxWidth: "60%" }}
+                        sx={{ maxWidth: "60%",color:"white" }}
                         {...(!isMobile && { "data-swiper-parallax": "-10%" })}
                       >
                         Ajouter au panier

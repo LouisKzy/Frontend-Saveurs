@@ -1,12 +1,12 @@
 import {  useRef } from "react";
 import { useDispatch } from "react-redux";
-import { LoginFetch } from "../services/authService";
-import { login } from "../features/authSlice";
+import { LoginFetch } from "../../services/authService";
+import { login } from "../../features/authSlice";
 import Cookies from "js-cookie";
-import Logo from "../assets/images/LogoHome.png";
-import Fonregister from "../assets/images/Fonregister.jpg";
+import Logo from "../../assets/images/LogoHome.png";
+import Fonregister from "../../assets/images/Fonregister.jpg";
 import { Grid, Paper, Box, Typography, TextField, FormControlLabel, Checkbox, Button, Link } from "@mui/material";
-import { useSnackbar } from "./SnackbarAlertProvider";
+import { useSnackbar } from "../SnackbarAlertProvider";
 
 export default function LoginForm() {
   const emailRef = useRef("");
@@ -104,6 +104,8 @@ export default function LoginForm() {
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Se souvenir de moi"
+                disabled
+                sx={{ mt: 2 }}
               />
               <Button
                 type="submit"

@@ -5,10 +5,10 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import { useRef } from 'react';
-import { ResetPasswordFetch } from '../services/authService';
+import { ResetPasswordFetch } from '../../services/authService';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from "@mui/material/styles";
-import { useSnackbar } from '../components/SnackbarAlertProvider';
+import { useSnackbar } from '../../components/SnackbarAlertProvider';
 export default function ResetPasswordForm() {
   const emailRef = useRef('');
 

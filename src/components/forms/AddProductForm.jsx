@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { AddProductfetch } from "../services/productService";
+import { AddProductfetch } from "../../services/productService";
 import Cookies from "js-cookie";
 import { Container, Box, Typography, Grid, TextField, Button, MenuItem, useMediaQuery } from '@mui/material';
-import { useSnackbar } from "./SnackbarAlertProvider";
+import { useSnackbar } from "../SnackbarAlertProvider";
 import useTheme from "@mui/material/styles/useTheme";
 const AddProductForm = () => {
   const openSnackbar = useSnackbar();
@@ -37,7 +37,6 @@ const AddProductForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      console.log("Données du produit:", productData);
       await AddProductfetch(productData);
       openSnackbar("Produit ajouté avec succès", "success");
     } catch (error) {

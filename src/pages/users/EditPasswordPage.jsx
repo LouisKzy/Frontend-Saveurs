@@ -1,4 +1,4 @@
-import EditPasswordForm from "../components/EditPasswordForm";
+import EditPasswordForm from "../../components/forms/EditPasswordForm";
 function EditPasswordPage() {
 
   return (

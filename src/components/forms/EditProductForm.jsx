@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { GetProductfetch, EditProductfetch } from "../services/productService";
+import { GetProductfetch, EditProductfetch } from "../../services/productService";
 import Cookies from "js-cookie";
 import {
   Box,
@@ -8,7 +8,7 @@ import {
   Button,
   TextField,
 } from "@mui/material";
-import { useSnackbar } from '../components/SnackbarAlertProvider';
+import { useSnackbar } from '../SnackbarAlertProvider';
 
 const EditProductForm = () => {
   const openSnackbar = useSnackbar();

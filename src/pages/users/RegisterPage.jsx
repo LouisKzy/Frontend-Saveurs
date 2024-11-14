@@ -1,9 +1,9 @@
-import LoginForm from '../components/LoginForm';
+import RegisterForm from '../../components/forms/RegisterForm';
 
-export default function LoginPage() {
+export default function RegisterPage() {
   return (
     <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <LoginForm />
+      <RegisterForm />
     </div>
   );
 }

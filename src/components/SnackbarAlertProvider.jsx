@@ -9,7 +9,7 @@ export const SnackbarAlertProvider = ({ children }) => {
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: '',
-    severity: 'info', // info, success, warning, error
+    severity: 'info',
   });
 
   const openSnackbar = useCallback((message, severity = 'info') => {
@@ -27,7 +27,7 @@ export const SnackbarAlertProvider = ({ children }) => {
   return (
     <SnackbarContext.Provider value={openSnackbar}>
       {children}
-      <Snackbar open={snackbar.open} autoHideDuration={6000} onClose={closeSnackbar} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+      <Snackbar open={snackbar.open} autoHideDuration={6000} onClose={closeSnackbar} anchorOrigin={{ vertical: 'top', horizontal: 'right'}}>
         <Alert onClose={closeSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
           {snackbar.message}
         </Alert>

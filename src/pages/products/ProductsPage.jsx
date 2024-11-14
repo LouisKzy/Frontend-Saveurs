@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import ProductGrid from "../components/ProductGrid";
-import { GetProducts } from "../services/productService";
+import ProductGrid from "../../components/ProductGrid";
+import { GetProducts } from "../../services/productService";
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]);

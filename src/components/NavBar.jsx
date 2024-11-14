@@ -1,5 +1,5 @@
 import { AppBar, Toolbar, Button, Box, Drawer, IconButton, List, ListItem, ListItemText, Grid, Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch} from 'react-redux';
 import LogoHome from './LogoHome';
 import { Link } from 'react-router-dom'; 
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -8,13 +8,17 @@ import LogOutButton from './LogOutButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import CartPreview from './CartPreview';
+import { fetchCart } from "../features/cartSlice";
 function NavBar() {
   const { token, isAdmin } = useSelector((state) => state.auth);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -22,6 +26,12 @@ function NavBar() {
     setIsDrawerOpen(open);
   };
 
+  const toggleCart = () => {
+    setIsCartOpen((prevState) => !prevState);
+  };
+  useEffect(() => {
+    dispatch(fetchCart());
+  }, [dispatch]);
   const renderDrawer = () => (
     <Drawer
     anchor="top"
@@ -105,11 +115,11 @@ function NavBar() {
       <Toolbar>
         {isMobile ? (
           <>  
-              <Link to="/" style={{ color: 'white', textDecoration: 'none', visited: { color: 'white' } }}>
-            <Typography variant="h5" component="div" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
-                Saveurs-Saisonnières
-            </Typography>
-              </Link>
+            <Link to="/" style={{ color: 'white', textDecoration: 'none', visited: { color: 'white' } }}>
+              <Typography variant="h5" component="div" sx={{ flexGrow: 1, fontWeight: 'bold',textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)'}}>
+                  Saveurs-Saisonnières
+              </Typography>
+            </Link>
             <IconButton
             
               edge="end"
@@ -127,7 +137,11 @@ function NavBar() {
           <>
 
             <Box style={{ marginRight: 'auto', marginLeft: 'auto'}}>
-              <LogoHome />
+              <Link to="/" style={{ color: 'white', textDecoration: 'none', visited: { color: 'white' } }}>
+                <Typography variant="h4" component="div" sx={{ flexGrow: 1, fontWeight: 'bold',textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)'}}>
+                    Saveurs-Saisonnières
+                </Typography>
+              </Link>
             </Box>
             <Box style={{ marginRight: 'auto', marginLeft: 'auto' }}>
               <Button component={Link} size='large' to="/products" color="inherit" sx={{ marginRight: 2, color: 'white' }}>Produits</Button>
@@ -138,9 +152,9 @@ function NavBar() {
             <Box style={{ display: 'flex', alignItems: 'center', marginRight: 'auto', marginLeft: 'auto' }}>
               {token ? (
                 <>
-                  <Link to="/cart">
-                    <ShoppingCartIcon sx={{ color: 'white', height: 35, width: 50, }} />
-                  </Link>
+                  <IconButton onClick={() => toggleCart(true)} color="inherit">
+                    <ShoppingCartIcon sx={{ color: 'white', height: 35, width: 50 }} />
+                  </IconButton>
                   {isAdmin ? (
                     <Link to="/admin/page">
                       <AccountCircleIcon sx={{ color: 'white', height: 35, width: 50,  }} />
@@ -162,6 +176,7 @@ function NavBar() {
           </>
         )}
       </Toolbar>
+      <CartPreview open={isCartOpen} toggleDrawer={() => toggleCart()} />
     </AppBar>
   );
 }

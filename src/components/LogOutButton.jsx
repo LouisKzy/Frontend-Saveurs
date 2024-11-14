@@ -14,7 +14,7 @@ export default function LogOutButton() {
       await LogoutFetch();
       dispatch(logout());
       window.location.href = "/";
-      console.log("Logged out successfully");
+
     } catch (error) {
       console.error('Failed to log out:', error.message);
     }
@@ -24,8 +24,10 @@ export default function LogOutButton() {
   
   return (
     <Button variant="outlined" onClick={handleClick} sx={{
-      marginRight: isMobile ? 0 : 20,
-      bgcolor: '#FFFFFF',
+      marginRight: isMobile ? 0 : 5,
+      bgcolor: 'white',
+      color: 'purple',
+      "&&:hover": {  color: "purple",bgcolor: '#FFFFFF', },
     }}>
       Se déconnecter
     </Button>

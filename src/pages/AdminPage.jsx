@@ -15,11 +15,11 @@ import { useSelector } from "react-redux";
 import { useSnackbar } from "../components/SnackbarAlertProvider";
 
 // Import des sous-composants
-import ProductActions from '../components/ProductActions';
-import ProductList from '../components/ProductList';
-import ProductDeleteDialog from '../components/ProductDeleteDialog';
-import OrderList from '../components/OrderList';
-import OrderDetailsDialog from '../components/OrderDetailsDialog';
+import ProductActions from '../components/admin/ProductActions';
+import ProductList from '../components/admin/ProductList';
+import ProductDeleteDialog from '../components/admin/ProductDeleteDialog';
+import OrderList from '../components/admin/OrderList';
+import OrderDetailsDialog from '../components/admin/OrderDetailsDialog';
 
 function AdminPage() {
   const [state, setState] = useState({

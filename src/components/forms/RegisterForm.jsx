@@ -5,12 +5,12 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import Logo from '../assets/images/LogoHome.png';
-import Fonlog from '../assets/images/FonLog.jpg';
-import { RegisterFetch } from '../services/authService';
+import Logo from '../../assets/images/LogoHome.png';
+import Fonlog from '../../assets/images/FonLog.jpg';
+import { RegisterFetch } from '../../services/authService';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSnackbar } from '../components/SnackbarAlertProvider';
+import { useSnackbar } from '../../components/SnackbarAlertProvider';
 
 export default function RegisterForm() {
   const emailRef = useRef('');
@@ -25,17 +25,13 @@ export default function RegisterForm() {
     const password = passwordRef.current.value;
     const confirmPassword = confirmPasswordRef.current.value;
 
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Confirm Password:', confirmPassword);
-
     if (password !== confirmPassword) {
       openSnackbar('Les mots de passe ne correspondent pas', 'error');
       return;
     }
     try {
       const data = await RegisterFetch(email, password);
-      console.log(data);
+
       navigate('/login');
     } catch (error) {
       openSnackbar(error.message, 'error');
@@ -120,7 +116,7 @@ export default function RegisterForm() {
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="login" variant="body1">
+                  <Link href="login" variant="body2">
                     Tu as déjà un compte ?
                   </Link>
                 </Grid>

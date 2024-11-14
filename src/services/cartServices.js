@@ -10,7 +10,6 @@ export async function GetCart() {
       }
     });
 
-    console.log('Cart:', response);
     return response; 
   } catch (error) {
     console.error('Error fetching cart:', error);
@@ -28,7 +27,6 @@ export async function AddProductToCart(productId, quantity = 1) {
         Authorization: Cookie.get("token")
       }
     });
-    console.log('Product added to cart:', response.data);
     return response.data;
   } catch (error) {
     console.error('Error adding product to cart:', error);
@@ -48,8 +46,6 @@ export async function RemoveFromCart(productId) {
         productId: productId
       }
     });
-
-    console.log('Product removed from cart:', response.data);
     return response.data;
   } catch (error) {
     console.error('Error removing product from cart:', error);

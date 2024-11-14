@@ -1,29 +1,29 @@
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
-import HomePage from "../pages/HomePage";
-import RegisterPage from "../pages/RegisterPage";
-import LoginPage from "../pages/LoginPage";
-import ResetPasswordPage from "../pages/ResetPasswordPage";
-import EditPasswordPage from "../pages/EditPasswordPage";
-import ShowCart from "../pages/ShowCart";
+import HomePage from "../pages/staticPages/HomePage";
+import RegisterPage from "../pages/users/RegisterPage";
+import LoginPage from "../pages/users/LoginPage";
+import ResetPasswordPage from "../pages/users/ResetPasswordPage";
+import EditPasswordPage from "../pages/users/EditPasswordPage";
+import ShowCart from "../pages/users/ShowCart";
 import AdminPage from "../pages/AdminPage";
-import AddProductForm from "./AddProductForm";
-import EditProductForm from "./EditProductForm";
-import LegumesPage from "../pages/LegumesPage";
-import FruitsPage from "../pages/FruitsPage";
-import ProductsPage from "../pages/ProductsPage";
+import AddProductForm from "./forms/AddProductForm";
+import EditProductForm from "./forms/EditProductForm";
+import LegumesPage from "../pages/products/LegumesPage";
+import FruitsPage from "../pages/products/FruitsPage";
+import ProductsPage from "../pages/products/ProductsPage";
 import SuccessPayment from "../pages/SuccessPayment";
-import NotFoundPage from "../pages/NotFoundPage";
+import NotFoundPage from "../pages/staticPages/NotFoundPage";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
-import UserPage from "../pages/UserPage";
-import CguCgv from "../pages/CguCgv";
-import LegalNotice from "../pages/LegalNotice";
-import PrivacyPolicy from "../pages/PrivacyPolicy";
-import PanierPage from "../pages/PaniersPage";
+import UserPage from "../pages/users/UserPage";
+import CguCgv from "../pages/staticPages/CguCgv";
+import LegalNotice from "../pages/staticPages/LegalNotice";
+import PrivacyPolicy from "../pages/staticPages/PrivacyPolicy";
+import PanierPage from "../pages/products/PaniersPage";
 function AppRoutes() {
   const isAdmin = useSelector((state) => state.auth.isAdmin);
-  console.log(isAdmin);
+
   return (
     <>
       <NavBar />

@@ -12,12 +12,11 @@ import { styled } from "@mui/material/styles";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PaymentIcon from "@mui/icons-material/Payment";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import welcomeImage from "../assets/images/welcomeF.svg";
-import Abbio from "../assets/images/Abbio.svg";
-import Logo from "../assets/images/LogoHome.png";
-import RondLoc from "../assets/images/RondLoc.svg";
-import RondThunder from "../assets/images/RondThunder.svg";
-import RondVelo from "../assets/images/RondVelo.svg";
+import welcomeImage from "../../assets/images/welcomeF.svg";
+import Logo from "../../assets/images/LogoHome.png";
+import RondLoc from "../../assets/images/RondLoc.svg";
+import RondThunder from "../../assets/images/RondThunder.svg";
+import RondVelo from "../../assets/images/RondVelo.svg";
 import Paper from "@mui/material/Paper";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#fff",
@@ -172,32 +171,11 @@ function HomePage() {
                     }
                   }}
                 >
-                  VOTRE PANIER PRÊT À RETIRER EN 1H
+                  VOTRE PANIER PRÊT À RETIRER EN 1H DIRECTEMENT CHEZ VOTRE PRIMEUR
                 </Button>
               </Grid>
 
-              <Grid
-                xs={5}
-                md={4}
-                sx={{ display: "flex", justifyContent: "flex-end" }}
-              >
-                <Button
-                  variant="contained"
-                  disableRipple
-                  sx={{
-                    bgcolor: "#FFFFFF",
-                    "&:hover": {
-                      bgcolor: "#FFFFFF",
-                      cursor: "default",
 
-                    },
-                    color: "black",
-
-                  }}
-                >
-                  DIRECTEMENT CHEZ VOTRE PRIMEUR
-                </Button>
-              </Grid>
             </Grid>
           </Grid>
         </Box>
@@ -221,7 +199,7 @@ function HomePage() {
               <PaymentIcon sx={{ fontSize: 80, color: "#8B1D1D" }} />
             </Box>
             <Typography variant="body1" sx={{ mt: 2, color: "#C0CA33" }}>
-              2. Je commande et paye en ligne
+              2. Je commande et paie en ligne
             </Typography>
           </Grid>
           <Grid item xs={12} sm={4} sx={{mt: 5}} textAlign="center">

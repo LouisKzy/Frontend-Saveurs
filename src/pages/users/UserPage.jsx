@@ -13,14 +13,14 @@ import {
   Box,
   Pagination,
 } from "@mui/material";
-import { ShowUser, UpdateUser, DeleteUser } from "../services/userService";
+import { ShowUser, UpdateUser, DeleteUser } from "../../services/userService";
 import { format } from "date-fns";
 import { useDispatch } from "react-redux";
-import { logout } from "../features/authSlice";
+import { logout } from "../../features/authSlice";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useSnackbar } from "../components/SnackbarAlertProvider";
-import Loader from '../components/Loader';
+import { useSnackbar } from "../../components/SnackbarAlertProvider";
+import Loader from '../../components/Loader';
 
 function UserPage() {
   const [user, setUser] = useState(null);
