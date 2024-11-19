@@ -130,6 +130,7 @@ function UserPage() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          minHeight: "60vh"
         }}
       >
         <Typography
